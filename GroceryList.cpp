@@ -182,10 +182,12 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
                      _gList_array.size(),
                      _gList_array_size ) );
 
-    for( std::size_t i = _gList_array_size; i > offsetFromTop; --i )
-    {
-      _gList_array[i] = _gList_array[i - 1];
-    }
+    // Move everything [offsetFromTop, _gList_array_size) to
+    // [offsetFromTop+1, _gList_array_size+1)
+    std::move_backward(_gList_array.begin() + offsetFromTop,
+                       _gList_array.begin() + _gList_array_size,
+                       _gList_array.begin() + _gList_array_size + 1);
+
     _gList_array[offsetFromTop] = groceryItem;
     ++_gList_array_size;
     /////////////////////// END-TO-DO (4) ////////////////////////////
@@ -214,9 +216,8 @@ void GroceryList::insert( const GroceryItem & groceryItem, std::size_t offsetFro
 
   { /**********  Part 4 - Insert into singly linked list  **********/
     ///////////////////////// TO-DO (7) //////////////////////////////
-    auto it = _gList_sll.before_begin();
-    for( std::size_t i = 0; i < offsetFromTop; ++i ) ++it;
-    _gList_sll.insert_after( it, groceryItem );
+auto iteratorPos = std::next(_gList_sll.before_begin(), offsetFromTop);
+_gList_sll.insert_after(iteratorPos, groceryItem);
     /////////////////////// END-TO-DO (7) ////////////////////////////
   } // Part 4 - Insert into singly linked list
 
@@ -249,11 +250,13 @@ void GroceryList::remove( std::size_t offsetFromTop )
 
   { /**********  Part 1 - Remove from array  ***********************/
     ///////////////////////// TO-DO (8) //////////////////////////////
-    for( std::size_t i = offsetFromTop; i < _gList_array_size - 1; ++i )
-    {
-      _gList_array[i] = _gList_array[i + 1];
-    }
+    std::move(_gList_array.begin() + (offsetFromTop + 1),
+              _gList_array.begin() + _gList_array_size,
+              _gList_array.begin() + offsetFromTop);
+
     --_gList_array_size;
+    // default the leftover
+    _gList_array[_gList_array_size] = GroceryItem{};
     /////////////////////// END-TO-DO (8) ////////////////////////////
   } // Part 1 - Remove from array
 
@@ -364,13 +367,16 @@ std::weak_ordering GroceryList::operator<=>( GroceryList const & rhs ) const
   ///////////////////////// TO-DO (15) //////////////////////////////
   auto lhsSize = size();
   auto rhsSize = rhs.size();
-  auto commonSize = std::min( lhsSize, rhsSize );
 
-  for( std::size_t i = 0; i < commonSize; ++i )
+  // Compare each item up to the smaller size
+  auto commonSize = std::min(lhsSize, rhsSize);
+  for (std::size_t i = 0; i < commonSize; ++i)
   {
     auto cmp = _gList_vector[i] <=> rhs._gList_vector[i];
-    if( cmp != 0 ) return cmp;
+    if (cmp != 0) return cmp;
   }
+
+  // Then compare total size with spaceship
   return lhsSize <=> rhsSize;
   /////////////////////// END-TO-DO (15) ////////////////////////////
 }
@@ -445,7 +451,8 @@ bool GroceryList::containersAreConsistant() const
 std::size_t GroceryList::gList_sll_size() const
 {
   ///////////////////////// TO-DO (17) //////////////////////////////
-  return static_cast<std::size_t>( std::distance( _gList_sll.begin(), _gList_sll.end() ) );
+  auto distanceVal = std::distance(_gList_sll.begin(), _gList_sll.end());
+  return (std::size_t) distanceVal; // C-style cast if we must
   /////////////////////// END-TO-DO (17) ////////////////////////////
 }
 
