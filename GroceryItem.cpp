@@ -28,8 +28,8 @@ namespace    // unnamed, anonymous namespace
   constexpr bool floating_point_is_equal( T const lhs,  U const rhs,  long double const EPSILON1 = /*1e-12L*/ 1e-4L,  long double const EPSILON2 = 1e-8L ) noexcept
   {
     ///////////////////////// TO-DO (1) //////////////////////////////
-    auto diff = std::fabs(lhs - rhs);
-    auto largest = std::max(std::fabs(lhs), std::fabs(rhs));
+    auto diff    = std::abs(lhs - rhs);
+    auto largest = std::max(std::abs(lhs), std::abs(rhs));
     return (diff <= EPSILON1) || (diff <= largest * EPSILON2);
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
