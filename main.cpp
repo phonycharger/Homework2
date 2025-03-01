@@ -109,15 +109,46 @@ int main()
 
 
     ///////////////////////// TO-DO (1) //////////////////////////////
-     /// Create, manipulate, and display your own GroceryList object here.  Not looking for anything specific but don't just repeat
-     /// what I've already done above.  Be imaginative and create your own story.  Maybe you're restocking a depleted food bank, or
-     /// preparing for a holiday meal, or catering a banquette, or planning an all night study session, or ...  You *must* use all
-     /// the functions of the GroceryList interface, including the insertion, extraction, and relational operators.  Try inserting
-     /// grocery items from both the top and the bottom of the lists using the enumerated position values TOP and BOTTOM as well as
-     /// indexed offsets.  Remove grocery items from the top, middle, and bottom.  Create, concatenate, rearrange, and compare
-     /// several (more than two) lists. Have some fun with it!  The purpose is to show me you, as a GroceryList class consumer
-     /// (i.e., the client) understand how to *use* the GroceryList.
+   {
+      GroceryList partyList = {
+        { "chicken wings", "Tyson" },
+        { "soda",          "Coke"  },
+        { "soda",          "Sprite"}
+      };
 
+      // Insert something at the top
+      partyList.insert({ "snacks", "Doritos" }, GroceryList::Position::TOP);
+
+      // Insert at the bottom
+      partyList.insert({ "cake", "Entenmann's" }, GroceryList::Position::BOTTOM);
+
+      // Remove a middle item (zero-based index)
+      partyList.remove(2); // removing "soda", "Coke"
+
+      // Move last item to top
+      partyList.moveToTop({ "cake", "Entenmann's" });
+
+      // Create a second list
+      GroceryList secondList = {
+        { "milk",    "Organic Valley" },
+        { "cookies", "Oreo"           }
+      };
+
+      // Compare them
+      if(partyList != secondList)
+      {
+        // Concatenate secondList into partyList
+        partyList += secondList;
+      }
+
+      std::cout << "\nMy Party List:" << partyList << "\n\n";
+
+      // Demo extraction via in-memory stream
+      std::istringstream iss( R"( "12345", "Baskin Robbins", "Ice Cream", 6.99
+                                   "",      "Lay's",          "Chips",     2.49 )" );
+      iss >> partyList;
+      std::cout << "After reading from stream:" << partyList << "\n\n";
+    }
     /////////////////////// END-TO-DO (1) ////////////////////////////
   }
 
