@@ -25,6 +25,3 @@ Actual results:
     1:  "",  "",  "milk",  0
     2:  "",  "",  "hot dogs",  0
     3:  "",  "Lakes 'Ole",  "butter",  0
-
-
-Test results:    PASS
