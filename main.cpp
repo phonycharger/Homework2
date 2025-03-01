@@ -109,7 +109,7 @@ int main()
 
 
     ///////////////////////// TO-DO (1) //////////////////////////////
-   {
+    {
       GroceryList partyList = {
         { "chicken wings", "Tyson" },
         { "soda",          "Coke"  },
@@ -128,8 +128,8 @@ int main()
       // Move last item to top
       partyList.moveToTop({ "cake", "Entenmann's" });
 
-      // Create a second list
-      GroceryList secondList = {
+      // We can declare secondList const if we never modify it
+      const GroceryList secondList = {
         { "milk",    "Organic Valley" },
         { "cookies", "Oreo"           }
       };
