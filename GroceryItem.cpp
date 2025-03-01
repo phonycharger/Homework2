@@ -374,27 +374,29 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
-  (void)delimiter;
-
-  char comma = '\0';  // variable used to parse commas
-std::string upc;
-std::string brand;
-std::string product;
+  std::string upc;
+  std::string brand;
+  std::string product;
   double price = 0.0;
 
-  // Attempt to parse four fields: "upc", "brand", "product", price
+  // We'll store into a local temp
+  GroceryItem localItem;
+
   if (stream >> std::ws >> std::quoted(upc)
-      && stream >> std::ws >> comma && comma == ','
+      && stream >> std::ws >> delimiter && delimiter == ','
       && stream >> std::ws >> std::quoted(brand)
-      && stream >> std::ws >> comma && comma == ','
+      && stream >> std::ws >> delimiter && delimiter == ','
       && stream >> std::ws >> std::quoted(product)
-      && stream >> std::ws >> comma && comma == ','
+      && stream >> std::ws >> delimiter && delimiter == ','
       && stream >> std::ws >> price)
   {
-    groceryItem.upcCode(std::move(upc))
-               .brandName(std::move(brand))
-               .productName(std::move(product))
-               .price(price);
+    localItem.upcCode(std::move(upc))
+             .brandName(std::move(brand))
+             .productName(std::move(product))
+             .price(price);
+
+    // Move localItem into the outbound groceryItem
+    groceryItem = std::move(localItem);
   }
   else
   {
