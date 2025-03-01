@@ -367,9 +367,12 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
 
   char delimiter = '\x{00}';                                          // C++23 delimited escape sequence for the character whose value is zero (the null character)
   ///////////////////////// TO-DO (21) //////////////////////////////
+  char comma = '\0';
+
   std::string upc, brand, product;
   double price = 0.0;
 
+  // Attempt to parse four fields: "upc", "brand", "product", price
   if (stream >> std::ws >> std::quoted(upc)
       && stream >> std::ws >> comma && comma == ','
       && stream >> std::ws >> std::quoted(brand)
@@ -385,6 +388,7 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
   }
   else
   {
+    // If anything failed, set the failbit
     stream.setstate(std::ios::failbit);
   }
 
