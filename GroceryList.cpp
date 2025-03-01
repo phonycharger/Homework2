@@ -451,8 +451,7 @@ bool GroceryList::containersAreConsistant() const
 std::size_t GroceryList::gList_sll_size() const
 {
   ///////////////////////// TO-DO (17) //////////////////////////////
-  auto distanceVal = std::distance(_gList_sll.begin(), _gList_sll.end());
-  return (std::size_t) distanceVal; // C-style cast if we must
+  return static_cast<std::size_t>(std::distance(_gList_sll.begin(), _gList_sll.end()));
   /////////////////////// END-TO-DO (17) ////////////////////////////
 }
 
