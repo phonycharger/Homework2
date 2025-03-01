@@ -55,7 +55,6 @@ GroceryItem::GroceryItem( std::string productName,
     _brandName(std::move(brandName)),
     _productName(std::move(productName)),
     _price(price)
-{}
 /////////////////////// END-TO-DO (2) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
@@ -69,7 +68,6 @@ GroceryItem::GroceryItem( GroceryItem const & other )
     _brandName ( other._brandName ),
     _productName( other._productName ),
     _price     ( other._price )
-{}
 /////////////////////// END-TO-DO (3) ////////////////////////////
 {}                                                                    // Avoid setting values in constructor's body (when possible)
 
@@ -83,7 +81,6 @@ GroceryItem::GroceryItem( GroceryItem && other ) noexcept
     _brandName ( std::move(other._brandName) ),
     _productName( std::move(other._productName) ),
     _price     ( std::move(other._price) )
-{}
 /////////////////////// END-TO-DO (4) ////////////////////////////
 {}
 
