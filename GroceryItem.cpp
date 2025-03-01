@@ -338,10 +338,17 @@ bool GroceryItem::operator==( const GroceryItem & rhs ) const noexcept
   // quickest and then the most likely to be different first.
 
   ///////////////////////// TO-DO (20) //////////////////////////////
-  return    _upcCode    == rhs._upcCode
-         && _brandName  == rhs._brandName
-         && _productName== rhs._productName
-         && floating_point_is_equal(_price, rhs._price);
+  if (!floating_point_is_equal(_price, rhs._price))
+  {
+    return false;
+  }
+
+  // Then compare the strings
+  if (_upcCode    != rhs._upcCode)    return false;
+  if (_brandName  != rhs._brandName)  return false;
+  if (_productName!= rhs._productName)return false;
+
+  return true;
   /////////////////////// END-TO-DO (20) ////////////////////////////
 }
 
