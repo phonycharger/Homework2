@@ -118,9 +118,8 @@ std::size_t GroceryList::find( const GroceryItem & groceryItem ) const
   if( !containersAreConsistant() )   throw InvalidInternalState_Ex( "Container consistency error" );
 
   ///////////////////////// TO-DO (2) //////////////////////////////
-  auto it = std::find( _gList_vector.begin(), _gList_vector.end(), groceryItem );
-  if( it == _gList_vector.end() ) return size();
-  return static_cast<std::size_t>( std::distance( _gList_vector.begin(), it ) );
+  auto foundIt = std::find(_gList_vector.begin(), _gList_vector.end(), groceryItem);
+  return (foundIt - _gList_vector.begin());
   /////////////////////// END-TO-DO (2) ////////////////////////////
 }
 
