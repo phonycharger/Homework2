@@ -370,7 +370,9 @@ std::istream & operator>>( std::istream & stream, GroceryItem & groceryItem )
   (void)delimiter;
 
   char comma = '\0';  // variable used to parse commas
-  std::string upc, brand, product;
+std::string upc;
+std::string brand;
+std::string product;
   double price = 0.0;
 
   // Attempt to parse four fields: "upc", "brand", "product", price
